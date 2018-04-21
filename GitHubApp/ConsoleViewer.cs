@@ -5,11 +5,9 @@ namespace GitHubApp
 {
     public class ConsoleViewer : IViewer
     {
-        public delegate void WriteAction(string line);
+        private readonly Action<string> _writeAction;
 
-        private readonly WriteAction _writeAction;
-
-        public ConsoleViewer(WriteAction writeAction)
+        public ConsoleViewer(Action<string> writeAction)
         {
             _writeAction = writeAction ?? throw new ArgumentNullException(nameof(writeAction));
         }

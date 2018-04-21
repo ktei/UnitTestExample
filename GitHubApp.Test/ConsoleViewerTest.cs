@@ -7,13 +7,13 @@ namespace GitHubApp.Test
     [TestFixture]
     class ConsoleViewerTest
     {
-        private Mock<ConsoleViewer.WriteAction> _writeActionMock;
+        private Mock<Action<string>> _writeActionMock;
         private ConsoleViewer _consoleViewer;
 
         [SetUp]
         public void Setup()
         {
-            _writeActionMock = new Mock<ConsoleViewer.WriteAction>();
+            _writeActionMock = new Mock<Action<string>>();
             _consoleViewer = new ConsoleViewer(_writeActionMock.Object);
         }
 
