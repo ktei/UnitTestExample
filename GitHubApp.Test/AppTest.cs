@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -47,9 +48,12 @@ namespace GitHubApp.Test
             _gitHubClientMock.Setup(x => x.FetchCommits(It.IsAny<string>())).ReturnsAsync(commits);
 
             // act
-            await _app.ViewCommits(repositoryId);
+            var viewedCommits = await _app.ViewCommits(repositoryId);
 
             // assert
+            viewedCommits.Should().HaveCount(1);
+            viewedCommits[0].CommitHash.Should().Be("1234567");
+
             _gitHubClientMock.Verify(x => x.FetchCommits(repositoryId), Times.Once());
             _viewerMock.Verify(x => x.ViewCommits(It.Is<IEnumerable<CommitDto>>(y => y.First().CommitHash == commits[0].CommitHash)), Times.Once());
         }

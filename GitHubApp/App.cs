@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GitHubApp
@@ -22,12 +22,14 @@ namespace GitHubApp
             _mapper = mapper;
         }
 
-        public async Task ViewCommits(string repositoryId)
+        public async Task<List<CommitDto>> ViewCommits(string repositoryId)
         {
             var commits = await _gitHubClient.FetchCommits(repositoryId);
             var commitDtos = _mapper.Map<IEnumerable<CommitDto>>(commits);
 
             _viewer.ViewCommits(commitDtos);
+
+            return commitDtos.ToList();
         }
     }
 }
